@@ -48,14 +48,21 @@ export default function Home() {
       {/* ── Header ──────────────────────────────────────────────────────────── */}
       <header className="border-b border-bbg-border bg-black">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-4 sm:px-6 py-3 gap-2">
-          <div className="flex items-center gap-3 font-mono">
-            <div className="text-bbg-green font-black text-lg tracking-tight" style={{ textShadow: "0 0 12px #00FF6688" }}>
-              OmniAI
+          {/* Logo row — on mobile, dev credit sits at the far right of this row */}
+          <div className="flex items-center justify-between sm:justify-start gap-3 font-mono">
+            <div className="flex items-center gap-3">
+              <div className="text-bbg-green font-black text-lg tracking-tight" style={{ textShadow: "0 0 12px #00FF6688" }}>
+                OmniAI
+              </div>
+              <div className="text-bbg-muted text-xs">|</div>
+              <div className="text-bbg-dim text-xs uppercase tracking-wider">
+                AI Model Terminal
+              </div>
             </div>
-            <div className="text-bbg-muted text-xs">|</div>
-            <div className="text-bbg-dim text-xs uppercase tracking-wider">
-              AI Model Terminal
-            </div>
+            {/* Visible only on portrait mobile */}
+            <span className="sm:hidden text-bbg-dim text-xs">
+              dev: <span className="text-bbg-green">CaptNightWatch</span>
+            </span>
           </div>
           <div className="flex items-center gap-3 sm:gap-6 font-mono text-xs flex-wrap">
             <div className="flex items-center gap-1.5">
@@ -71,7 +78,8 @@ export default function Home() {
                 ? `${selectedIds.length} SELECTED`
                 : <span className="hidden xs:inline">CLICK CARDS TO COMPARE</span>}
             </span>
-            <span className="text-bbg-dim border-l border-bbg-border pl-3">
+            {/* Visible on landscape/desktop */}
+            <span className="hidden sm:inline text-bbg-dim border-l border-bbg-border pl-3">
               dev: <span className="text-bbg-green">CaptNightWatch</span>
             </span>
           </div>
