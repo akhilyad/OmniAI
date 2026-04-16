@@ -54,14 +54,14 @@ export function ComparisonTable({ selectedIds }: ComparisonTableProps) {
   }
 
   return (
-    <div className="bg-zinc-900 border border-zinc-700 rounded overflow-auto font-mono">
-      <div className="text-xs text-zinc-400 p-4 pb-2 uppercase tracking-wider">
+    <div className="bg-bbg-surface border border-bbg-border rounded overflow-auto font-mono">
+      <div className="text-xs text-bbg-dim p-4 pb-2 uppercase tracking-wider">
         Full Comparison Matrix
       </div>
       <Table>
         <TableHeader>
-          <TableRow className="border-zinc-700 hover:bg-transparent">
-            <TableHead className="text-zinc-500 text-[11px] w-32">METRIC</TableHead>
+          <TableRow className="border-bbg-border hover:bg-transparent">
+            <TableHead className="text-bbg-dim text-[11px] w-32">METRIC</TableHead>
             {models.map((m) => (
               <TableHead key={m.id} className="text-[11px]">
                 <span style={{ color: m.providerColor }} className="font-bold">
@@ -75,8 +75,8 @@ export function ComparisonTable({ selectedIds }: ComparisonTableProps) {
           {rows.map((row) => {
             const bestVal = getBestVal(row.key, models, row.lowerIsBetter);
             return (
-              <TableRow key={row.label} className="border-zinc-800 hover:bg-zinc-800/40">
-                <TableCell className="text-zinc-500 text-[11px] font-mono py-2">
+              <TableRow key={row.label} className="border-bbg-border hover:bg-bbg-border/40">
+                <TableCell className="text-bbg-dim text-[11px] font-mono py-2">
                   {row.label}
                   {row.lowerIsBetter && (
                     <span className="text-zinc-700 ml-1 text-[9px]">↓</span>
@@ -91,14 +91,14 @@ export function ComparisonTable({ selectedIds }: ComparisonTableProps) {
                     <TableCell
                       key={m.id}
                       className={`text-[11px] py-2 font-mono ${
-                        isBest ? "text-yellow-400 font-bold" : "text-zinc-300"
-                      } ${val === "✓ YES" ? "text-green-400" : ""} ${
+                        isBest ? "text-bbg-green font-bold" : "text-zinc-300"
+                      } ${val === "✓ YES" ? "text-bbg-mid" : ""} ${
                         val === "✗ NO" ? "text-zinc-600" : ""
                       }`}
                     >
                       {val}
                       {isBest && (
-                        <span className="text-yellow-400 ml-1 text-[9px]">
+                        <span className="text-bbg-green ml-1 text-[9px]">
                           {row.lowerIsBetter ? "▼" : "▲"}
                         </span>
                       )}

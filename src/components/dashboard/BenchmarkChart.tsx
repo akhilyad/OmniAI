@@ -30,28 +30,28 @@ export function BenchmarkChart({ selectedIds }: BenchmarkChartProps) {
   const colors = selected.map((m) => m.providerColor);
 
   return (
-    <div className="bg-zinc-900 border border-zinc-700 rounded p-4 font-mono">
-      <div className="text-xs text-zinc-400 mb-1 uppercase tracking-wider">Benchmark Radar</div>
-      <div className="text-[10px] text-zinc-600 mb-4">
+    <div className="bg-bbg-surface border border-bbg-border rounded p-4 font-mono">
+      <div className="text-xs text-bbg-dim mb-1 uppercase tracking-wider">Benchmark Radar</div>
+      <div className="text-[10px] text-bbg-muted mb-4">
         {BENCHMARKS_INFO.map((b) => `${b.label}: ${b.description}`).join("  ·  ")}
       </div>
 
       {selected.length === 0 ? (
-        <div className="flex items-center justify-center h-48 text-zinc-600 text-sm">
+        <div className="flex items-center justify-center h-48 text-bbg-muted text-sm">
           Select models above to compare benchmarks
         </div>
       ) : (
         <ResponsiveContainer width="100%" height={280}>
           <RadarChart data={data}>
-            <PolarGrid stroke="#3f3f46" />
+            <PolarGrid stroke="#0a2b0a" />
             <PolarAngleAxis
               dataKey="benchmark"
-              tick={{ fill: "#a1a1aa", fontSize: 11, fontFamily: "monospace" }}
+              tick={{ fill: "#33994D", fontSize: 11, fontFamily: "monospace" }}
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: "#18181b",
-                border: "1px solid #3f3f46",
+                backgroundColor: "#070707",
+                border: "1px solid #0a2b0a",
                 borderRadius: 4,
                 fontFamily: "monospace",
                 fontSize: 12,

@@ -22,31 +22,31 @@ export function PricingChart() {
   }));
 
   return (
-    <div className="bg-zinc-900 border border-zinc-700 rounded p-4 font-mono">
-      <div className="text-xs text-zinc-400 mb-1 uppercase tracking-wider">
+    <div className="bg-bbg-surface border border-bbg-border rounded p-4 font-mono">
+      <div className="text-xs text-bbg-dim mb-1 uppercase tracking-wider">
         Pricing per 1M Tokens (USD)
       </div>
-      <div className="text-[10px] text-zinc-600 mb-4">
+      <div className="text-[10px] text-bbg-muted mb-4">
         Llama &amp; Nemotron are $0 when self-hosted — cloud provider rates vary
       </div>
       <ResponsiveContainer width="100%" height={200}>
         <BarChart data={data} barGap={2}>
           <XAxis
             dataKey="name"
-            tick={{ fill: "#71717a", fontSize: 10, fontFamily: "monospace" }}
+            tick={{ fill: "#33994D", fontSize: 10, fontFamily: "monospace" }}
             axisLine={false}
             tickLine={false}
           />
           <YAxis
-            tick={{ fill: "#71717a", fontSize: 10, fontFamily: "monospace" }}
+            tick={{ fill: "#33994D", fontSize: 10, fontFamily: "monospace" }}
             axisLine={false}
             tickLine={false}
             tickFormatter={(v) => `$${v}`}
           />
           <Tooltip
             contentStyle={{
-              backgroundColor: "#18181b",
-              border: "1px solid #3f3f46",
+              backgroundColor: "#070707",
+              border: "1px solid #0a2b0a",
               borderRadius: 4,
               fontFamily: "monospace",
               fontSize: 11,

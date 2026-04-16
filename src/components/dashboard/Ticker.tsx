@@ -12,7 +12,7 @@ export function Ticker() {
   const ticker = [...items, ...items].join("     ◆     ");
 
   return (
-    <div className="bg-yellow-400 text-black text-xs font-mono overflow-hidden whitespace-nowrap py-1.5">
+    <div className="bg-bbg-green text-black text-xs font-mono overflow-hidden whitespace-nowrap py-1.5">
       <div
         className="inline-block animate-marquee"
         style={{ animationDuration: "60s" }}

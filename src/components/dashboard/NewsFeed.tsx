@@ -32,20 +32,20 @@ export function NewsFeed() {
   const isLive = Boolean(data?.fetchedAt);
 
   return (
-    <div className="bg-zinc-900 border border-zinc-700 rounded p-4 font-mono">
+    <div className="bg-bbg-surface border border-bbg-border rounded p-4 font-mono">
       <div className="flex items-center justify-between mb-4">
-        <div className="text-xs text-zinc-400 uppercase tracking-wider">
+        <div className="text-xs text-bbg-dim uppercase tracking-wider">
           Latest AI News
         </div>
         <div className="flex items-center gap-2">
           {isLoading && (
-            <span className="text-[10px] text-zinc-600">fetching feeds…</span>
+            <span className="text-[10px] text-bbg-muted">fetching feeds…</span>
           )}
           <span
             className={`text-[10px] border px-2 py-0.5 rounded ${
               isLive
-                ? "bg-green-900/40 text-green-400 border-green-800"
-                : "bg-zinc-800 text-zinc-500 border-zinc-700"
+                ? "bg-bbg-green/10 text-bbg-green border-bbg-muted"
+                : "bg-black text-bbg-muted border-bbg-border"
             }`}
           >
             {isLive ? "● LIVE RSS" : "● STATIC"}
@@ -59,9 +59,9 @@ export function NewsFeed() {
           return (
             <div
               key={i}
-              className="flex gap-3 pb-3 border-b border-zinc-800 last:border-0"
+              className="flex gap-3 pb-3 border-b border-bbg-border last:border-0"
             >
-              <div className="text-[10px] text-zinc-600 w-20 shrink-0 pt-0.5">
+              <div className="text-[10px] text-bbg-muted w-20 shrink-0 pt-0.5">
                 {item.date}
               </div>
               <div className="min-w-0">
@@ -77,7 +77,7 @@ export function NewsFeed() {
                       {model.name}
                     </span>
                   )}
-                  <span className="text-[10px] text-zinc-600 shrink-0">
+                  <span className="text-[10px] text-bbg-muted shrink-0">
                     {item.source}
                   </span>
                 </div>
@@ -86,7 +86,7 @@ export function NewsFeed() {
                     href={item.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[11px] text-zinc-300 leading-snug hover:text-white transition-colors underline decoration-zinc-700 hover:decoration-zinc-400 break-words"
+                    className="text-[11px] text-zinc-300 leading-snug hover:text-bbg-green transition-colors underline decoration-bbg-border hover:decoration-bbg-mid break-words"
                   >
                     {item.headline}
                   </a>
@@ -102,7 +102,7 @@ export function NewsFeed() {
       </div>
 
       {isLive && data?.fetchedAt && (
-        <div className="text-[10px] text-zinc-600 mt-4">
+        <div className="text-[10px] text-bbg-muted mt-4">
           Last fetched: {new Date(data.fetchedAt).toLocaleTimeString()} · Refreshes every 15 min
         </div>
       )}

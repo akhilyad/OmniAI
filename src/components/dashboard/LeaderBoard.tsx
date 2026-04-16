@@ -34,20 +34,20 @@ export function LeaderBoard() {
   const maxElo = entries[0]?.arenaElo ?? 1;
 
   return (
-    <div className="bg-zinc-900 border border-zinc-700 rounded p-4 font-mono">
+    <div className="bg-bbg-surface border border-bbg-border rounded p-4 font-mono">
       <div className="flex items-center justify-between mb-4">
-        <div className="text-xs text-zinc-400 uppercase tracking-wider">
+        <div className="text-xs text-bbg-dim uppercase tracking-wider">
           Arena ELO Leaderboard
         </div>
         <div className="flex items-center gap-2">
           {isLoading && (
-            <span className="text-[10px] text-zinc-600">fetching…</span>
+            <span className="text-[10px] text-bbg-muted">fetching…</span>
           )}
           <span
             className={`text-[10px] border px-2 py-0.5 rounded ${
               hasLiveData
-                ? "bg-green-900/40 text-green-400 border-green-800"
-                : "bg-zinc-800 text-zinc-500 border-zinc-700"
+                ? "bg-bbg-green/10 text-bbg-green border-bbg-muted"
+                : "bg-black text-bbg-muted border-bbg-border"
             }`}
           >
             {hasLiveData ? "● HF LIVE" : "● LMSYS STATIC"}
@@ -60,7 +60,7 @@ export function LeaderBoard() {
           const pct = (entry.arenaElo / maxElo) * 100;
           return (
             <div key={entry.modelId} className="flex items-center gap-3">
-              <span className="text-zinc-600 text-[11px] w-4 text-right font-bold">
+              <span className="text-bbg-muted text-[11px] w-4 text-right font-bold">
                 {entry.rank}
               </span>
               <div className="w-24 shrink-0">
@@ -70,20 +70,20 @@ export function LeaderBoard() {
                 >
                   {entry.name}
                 </div>
-                <div className="text-[10px] text-zinc-600">{entry.provider}</div>
+                <div className="text-[10px] text-bbg-muted">{entry.provider}</div>
               </div>
-              <div className="flex-1 bg-zinc-800 rounded-full h-2 overflow-hidden">
+              <div className="flex-1 bg-bbg-border rounded-full h-2 overflow-hidden">
                 <div
                   className="h-full rounded-full transition-all duration-500"
                   style={{ width: `${pct}%`, backgroundColor: entry.color }}
                 />
               </div>
               <div className="text-right w-20 shrink-0">
-                <div className="text-yellow-400 text-[11px] font-bold">
+                <div className="text-bbg-green text-[11px] font-bold">
                   {entry.arenaElo.toLocaleString()}
                 </div>
                 {entry.source === "hf-leaderboard" && (
-                  <div className="text-[9px] text-green-500">HF LIVE</div>
+                  <div className="text-[9px] text-bbg-mid">HF LIVE</div>
                 )}
               </div>
             </div>
@@ -91,7 +91,7 @@ export function LeaderBoard() {
         })}
       </div>
 
-      <div className="text-[10px] text-zinc-600 mt-4">
+      <div className="text-[10px] text-bbg-muted mt-4">
         {hasLiveData
           ? "Open-source models: HuggingFace Open LLM Leaderboard · Closed models: LMSYS Arena"
           : "Source: LMSYS Chatbot Arena · Updated daily from HuggingFace"}

@@ -27,8 +27,8 @@ export function ModelCard({ model, isSelected, onSelect }: ModelCardProps) {
         relative cursor-pointer rounded border p-4 transition-all duration-150 select-none
         font-mono text-sm
         ${isSelected
-          ? "border-yellow-400 bg-zinc-800 shadow-lg shadow-yellow-400/10"
-          : "border-zinc-700 bg-zinc-900 hover:border-zinc-500"
+          ? "border-bbg-green bg-bbg-surface shadow-lg shadow-bbg-green/10"
+          : "border-bbg-border bg-bbg-surface hover:border-bbg-muted"
         }
       `}
     >
@@ -75,23 +75,23 @@ export function ModelCard({ model, isSelected, onSelect }: ModelCardProps) {
 
       {/* Key stats */}
       <div className="grid grid-cols-3 gap-2 mb-3">
-        <div className="bg-zinc-800/60 rounded p-2 text-center">
-          <div className="text-yellow-400 font-bold text-sm">
+        <div className="bg-black rounded p-2 text-center border border-bbg-border">
+          <div className="text-bbg-green font-bold text-sm">
             {formatPrice(model.inputPrice)}
           </div>
-          <div className="text-zinc-500 text-[10px]">INPUT/M</div>
+          <div className="text-bbg-muted text-[10px]">INPUT/M</div>
         </div>
-        <div className="bg-zinc-800/60 rounded p-2 text-center">
+        <div className="bg-black rounded p-2 text-center border border-bbg-border">
           <div className="text-orange-400 font-bold text-sm">
             {formatContextWindow(model.contextWindow)}
           </div>
-          <div className="text-zinc-500 text-[10px]">CONTEXT</div>
+          <div className="text-bbg-muted text-[10px]">CONTEXT</div>
         </div>
-        <div className="bg-zinc-800/60 rounded p-2 text-center">
+        <div className="bg-black rounded p-2 text-center border border-bbg-border">
           <div className="text-blue-400 font-bold text-sm">
             {model.arenaElo}
           </div>
-          <div className="text-zinc-500 text-[10px]">ELO</div>
+          <div className="text-bbg-muted text-[10px]">ELO</div>
         </div>
       </div>
 
@@ -141,7 +141,7 @@ export function ModelCard({ model, isSelected, onSelect }: ModelCardProps) {
 
       {/* Selection indicator */}
       {isSelected && (
-        <div className="mt-3 pt-3 border-t border-zinc-700 text-yellow-400 text-[11px] text-center">
+        <div className="mt-3 pt-3 border-t border-bbg-border text-bbg-green text-[11px] text-center" style={{ textShadow: "0 0 6px #00FF6666" }}>
           ▶ SELECTED FOR COMPARISON
         </div>
       )}
