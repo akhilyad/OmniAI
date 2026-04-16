@@ -27,7 +27,7 @@ export function PricingChart() {
         Pricing per 1M Tokens (USD)
       </div>
       <div className="text-[10px] text-zinc-600 mb-4">
-        Llama is $0 when self-hosted — cloud providers vary
+        Llama &amp; Nemotron are $0 when self-hosted — cloud provider rates vary
       </div>
       <ResponsiveContainer width="100%" height={200}>
         <BarChart data={data} barGap={2}>

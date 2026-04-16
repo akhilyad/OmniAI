@@ -31,11 +31,13 @@
 <div align="center">
 
 ```
-╔══════════════════════════════════════════════════════════════════╗
-║  LIVE LEADERBOARD  ·  PRICE TRACKER  ·  BENCHMARK CHARTS        ║
-║  NEWS FEED  ·  USE CASE RECOMMENDER  ·  PRICING HISTORY          ║
-╚══════════════════════════════════════════════════════════════════╝
+╔══════════════════════════════════════════════════════════════════════════╗
+║  16 MODELS  ·  16 PROVIDERS  ·  LIVE LEADERBOARD  ·  PRICE TRACKER      ║
+║  BENCHMARK CHARTS  ·  NEWS FEED  ·  USE CASE RECOMMENDER  ·  HISTORY     ║
+╚══════════════════════════════════════════════════════════════════════════╝
 ```
+
+**Providers tracked:** OpenAI · Anthropic · Google · Meta · xAI · DeepSeek · Alibaba · Moonshot AI · Zhipu AI · ByteDance · MiniMax · Baidu · Mistral AI · Nvidia · Cohere · AI21 Labs
 
 </div>
 

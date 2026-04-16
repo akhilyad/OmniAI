@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { MODELS } from "@/data/models";
+import { useState, useMemo } from "react";
+import { MODELS, PROVIDERS } from "@/data/models";
 import { Ticker } from "@/components/dashboard/Ticker";
 import { ModelCard } from "@/components/dashboard/ModelCard";
 import { BenchmarkChart } from "@/components/dashboard/BenchmarkChart";
@@ -15,12 +15,21 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 export default function Home() {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [activeProvider, setActiveProvider] = useState<string | null>(null);
 
   function toggleModel(id: string) {
     setSelectedIds((prev) =>
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
     );
   }
+
+  const visibleModels = useMemo(
+    () =>
+      activeProvider
+        ? MODELS.filter((m) => m.provider === activeProvider)
+        : MODELS,
+    [activeProvider]
+  );
 
   const now = new Date();
   const timeStr = now.toLocaleTimeString("en-US", {
@@ -37,7 +46,7 @@ export default function Home() {
         <div className="flex items-center justify-between px-6 py-3">
           <div className="flex items-center gap-4 font-mono">
             <div className="text-yellow-400 font-black text-lg tracking-tight">
-              BLOOMBR
+              OmniAI
             </div>
             <div className="text-zinc-600 text-xs">|</div>
             <div className="text-zinc-400 text-xs uppercase tracking-wider">
@@ -51,7 +60,7 @@ export default function Home() {
             </div>
             <span className="text-zinc-500">{timeStr}</span>
             <span className="text-zinc-600">
-              {MODELS.length} MODELS TRACKED
+              {MODELS.length} MODELS · {PROVIDERS.length} PROVIDERS
             </span>
             <span className="text-zinc-600">
               {selectedIds.length > 0
@@ -66,24 +75,82 @@ export default function Home() {
       <Ticker />
 
       {/* Main content */}
-      <main className="px-6 py-6 space-y-6 max-w-[1600px] mx-auto">
+      <main className="px-6 py-6 space-y-6 max-w-[1800px] mx-auto">
+        {/* Provider filter bar */}
+        <section>
+          <div className="flex items-center gap-2 flex-wrap font-mono">
+            <span className="text-[10px] text-zinc-600 uppercase tracking-wider mr-1">
+              Filter:
+            </span>
+            <button
+              onClick={() => setActiveProvider(null)}
+              className={`text-[11px] px-2.5 py-1 rounded border transition-all ${
+                activeProvider === null
+                  ? "border-yellow-400 bg-yellow-400/10 text-yellow-400"
+                  : "border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-300"
+              }`}
+            >
+              ALL ({MODELS.length})
+            </button>
+            {PROVIDERS.map((provider) => {
+              const providerModels = MODELS.filter((m) => m.provider === provider);
+              const color = providerModels[0]?.providerColor ?? "#71717a";
+              const isActive = activeProvider === provider;
+              return (
+                <button
+                  key={provider}
+                  onClick={() =>
+                    setActiveProvider(isActive ? null : provider)
+                  }
+                  className={`text-[11px] px-2.5 py-1 rounded border transition-all ${
+                    isActive
+                      ? "font-bold"
+                      : "border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-300"
+                  }`}
+                  style={
+                    isActive
+                      ? {
+                          borderColor: color,
+                          backgroundColor: color + "18",
+                          color,
+                        }
+                      : undefined
+                  }
+                >
+                  {provider}
+                </button>
+              );
+            })}
+            {activeProvider && (
+              <button
+                onClick={() => setActiveProvider(null)}
+                className="text-[11px] text-zinc-600 hover:text-zinc-400 ml-1 underline"
+              >
+                clear
+              </button>
+            )}
+          </div>
+        </section>
+
         {/* Model grid */}
         <section>
           <div className="flex items-center justify-between mb-3">
             <h2 className="font-mono text-xs text-zinc-400 uppercase tracking-wider">
-              Model Overview — Click to Select for Comparison
+              {activeProvider
+                ? `${activeProvider} — ${visibleModels.length} model${visibleModels.length !== 1 ? "s" : ""}`
+                : `Model Overview — ${MODELS.length} Models · Click to Select for Comparison`}
             </h2>
             {selectedIds.length > 0 && (
               <button
                 onClick={() => setSelectedIds([])}
                 className="font-mono text-[11px] text-zinc-500 hover:text-zinc-300 underline"
               >
-                Clear selection
+                Clear selection ({selectedIds.length})
               </button>
             )}
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-7 gap-3">
-            {MODELS.map((model) => (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8 gap-3">
+            {visibleModels.map((model) => (
               <ModelCard
                 key={model.id}
                 model={model}
@@ -96,7 +163,7 @@ export default function Home() {
 
         {/* Tabs for main analytics */}
         <Tabs defaultValue="compare" className="font-mono">
-          <TabsList className="bg-zinc-900 border border-zinc-700 h-auto p-1">
+          <TabsList className="bg-zinc-900 border border-zinc-700 h-auto p-1 flex-wrap">
             {[
               { val: "compare", label: "COMPARISON MATRIX" },
               { val: "benchmarks", label: "BENCHMARKS" },
@@ -148,7 +215,7 @@ export default function Home() {
         {/* Footer */}
         <footer className="border-t border-zinc-800 pt-4 pb-2">
           <div className="flex items-center justify-between font-mono text-[10px] text-zinc-600">
-            <span>BLOOMBR — AI Model Terminal · Built for competitive intelligence</span>
+            <span>OmniAI — AI Model Terminal · {MODELS.length} models across {PROVIDERS.length} providers</span>
             <span>Data: LMSYS Arena · HuggingFace · Provider docs · Updated Apr 2025</span>
           </div>
         </footer>
