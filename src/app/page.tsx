@@ -60,9 +60,14 @@ export default function Home() {
               </div>
             </div>
             {/* Visible only on portrait mobile */}
-            <span className="sm:hidden text-bbg-dim text-xs">
-              dev: <a href="https://www.instagram.com/capt.night_watch" target="_blank" rel="noopener noreferrer" className="text-bbg-green hover:underline">CaptNightWatch</a>
-            </span>
+            <a
+              href="https://www.instagram.com/capt.night_watch"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="sm:hidden text-bbg-dim text-xs py-2 px-1 -my-2 -mx-1"
+            >
+              dev: <span className="text-bbg-green">CaptNightWatch</span>
+            </a>
           </div>
           <div className="flex items-center gap-3 sm:gap-6 font-mono text-xs flex-wrap">
             <div className="flex items-center gap-1.5">
@@ -79,9 +84,14 @@ export default function Home() {
                 : <span className="hidden xs:inline">CLICK CARDS TO COMPARE</span>}
             </span>
             {/* Visible on landscape/desktop */}
-            <span className="hidden sm:inline text-bbg-dim border-l border-bbg-border pl-3">
-              dev: <a href="https://www.instagram.com/capt.night_watch" target="_blank" rel="noopener noreferrer" className="text-bbg-green hover:underline">CaptNightWatch</a>
-            </span>
+            <a
+              href="https://www.instagram.com/capt.night_watch"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:inline text-bbg-dim border-l border-bbg-border pl-3 py-2 -my-2"
+            >
+              dev: <span className="text-bbg-green">CaptNightWatch</span>
+            </a>
           </div>
         </div>
       </header>
