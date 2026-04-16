@@ -1,10 +1,10 @@
 import type { NextConfig } from "next";
-import path from "path";
 
 const nextConfig: NextConfig = {
   turbopack: {
-    // Silence the multi-lockfile workspace root warning on Windows
-    root: path.resolve(__dirname),
+    // Pin workspace root to this project so Turbopack ignores the
+    // stray package.json/package-lock.json in C:\Users\akhil\
+    root: ".",
   },
 };
 
