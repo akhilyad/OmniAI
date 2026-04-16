@@ -11,10 +11,19 @@ const HF_DATASET_URL =
 // Map our model IDs to the names used on the Open LLM Leaderboard
 // (Claude, GPT-4o, Grok are closed-source and NOT on the open leaderboard;
 //  we keep their static ELO scores and only update open models from HF)
+// Open-source / semi-open models that appear on the HF Open LLM Leaderboard.
+// Closed-source models (gemini, claude, gpt4o, grok, doubao, ernie, jamba)
+// stay on "lmsys-static" and are never overwritten here.
 const HF_MODEL_MAP: Record<string, string[]> = {
-  llama: ["meta-llama/Llama-3.3-70B", "meta-llama/Meta-Llama-3"],
-  minimax: ["MiniMaxAI/MiniMax-Text-01"],
-  kimi: ["moonshotai/Kimi"],
+  llama:    ["meta-llama/Llama-3.3-70B",                        "meta-llama/Meta-Llama-3"],
+  deepseek: ["deepseek-ai/DeepSeek-V3",                         "deepseek-ai/DeepSeek"],
+  mistral:  ["mistralai/Mistral-Large-Instruct",                 "mistralai/Mistral-Large"],
+  qwen:     ["Qwen/Qwen2.5-72B-Instruct",                       "Qwen/Qwen2.5"],
+  nemotron: ["nvidia/Llama-3.1-Nemotron-70B-Instruct-HF",       "nvidia/Nemotron"],
+  glm4:     ["THUDM/glm-4-9b-chat",                             "THUDM/glm-4"],
+  cohere:   ["CohereForAI/c4ai-command-r-plus-08-2024",         "CohereForAI/c4ai-command-r"],
+  minimax:  ["MiniMaxAI/MiniMax-Text-01"],
+  kimi:     ["moonshotai/Kimi"],
 };
 
 export interface LeaderboardEntry {

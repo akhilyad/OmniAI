@@ -48,6 +48,16 @@ export function ModelCard({ model, isSelected, onSelect }: ModelCardProps) {
                 OSS
               </Badge>
             )}
+            <a
+              href={model.apiUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="text-zinc-600 hover:text-zinc-400 transition-colors"
+              title={`Open ${model.provider} API docs`}
+            >
+              <ExternalLink size={11} />
+            </a>
           </div>
           <div className="text-zinc-400 text-[11px] mt-0.5">
             {model.provider} · v{model.version}

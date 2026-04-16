@@ -46,13 +46,22 @@ const FEEDS = [
 ];
 
 const MODEL_KEYWORDS: Record<string, string[]> = {
-  claude: ["claude", "anthropic"],
-  gemini: ["gemini", "google deepmind", "google ai"],
-  gpt4o: ["openai", "gpt-4", "gpt4", "chatgpt"],
-  llama: ["llama", "meta ai", "meta's ai"],
-  grok: ["grok", "xai", "x.ai"],
-  minimax: ["minimax"],
-  kimi: ["kimi", "moonshot"],
+  claude:   ["claude", "anthropic"],
+  gemini:   ["gemini", "google deepmind", "google ai"],
+  gpt4o:    ["openai", "gpt-4", "gpt4", "chatgpt", "o3", "o4"],
+  llama:    ["llama", "meta ai", "meta's ai"],
+  grok:     ["grok", "xai", "x.ai"],
+  deepseek: ["deepseek"],
+  qwen:     ["qwen", "alibaba", "aliyun"],
+  mistral:  ["mistral"],
+  nemotron: ["nemotron", "nvidia nim"],
+  cohere:   ["cohere", "command r"],
+  jamba:    ["jamba", "ai21"],
+  glm4:     ["glm-4", "zhipu", "bigmodel"],
+  doubao:   ["doubao", "bytedance", "skylark"],
+  ernie:    ["ernie", "baidu", "wenxin"],
+  minimax:  ["minimax"],
+  kimi:     ["kimi", "moonshot"],
 };
 
 function detectModelTag(title: string, content: string): string | null {
@@ -99,8 +108,15 @@ export async function GET() {
     })
   );
 
-  // Sort newest first
+  // Sort newest first, then deduplicate by exact headline
   results.sort((a, b) => b.date.localeCompare(a.date));
 
-  return NextResponse.json({ items: results.slice(0, 20), fetchedAt: new Date().toISOString() });
+  const seen = new Set<string>();
+  const deduped = results.filter((item) => {
+    if (seen.has(item.headline)) return false;
+    seen.add(item.headline);
+    return true;
+  });
+
+  return NextResponse.json({ items: deduped.slice(0, 30), fetchedAt: new Date().toISOString() });
 }

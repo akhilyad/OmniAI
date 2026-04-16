@@ -2,6 +2,26 @@ import { NextRequest, NextResponse } from "next/server";
 import { MODELS } from "@/data/models";
 import { getDb, isDbConfigured } from "@/lib/db";
 
+// GET /api/pricing-snapshot — health check: returns last snapshot time per model
+export async function GET() {
+  if (!isDbConfigured()) {
+    return NextResponse.json({ configured: false });
+  }
+  try {
+    const sql = getDb();
+    const rows = await sql`
+      SELECT model_id, MAX(recorded_at) AS last_recorded
+      FROM pricing_history
+      GROUP BY model_id
+      ORDER BY model_id
+    ` as Array<{ model_id: string; last_recorded: string }>;
+    return NextResponse.json({ configured: true, snapshots: rows });
+  } catch (err) {
+    console.error("pricing-snapshot GET error:", err);
+    return NextResponse.json({ error: "DB read failed" }, { status: 500 });
+  }
+}
+
 // POST /api/pricing-snapshot
 // Call this from a daily cron (e.g., Cloudflare Workers cron trigger or GitHub Actions)
 // to record the current pricing. Protect with CRON_SECRET env var.

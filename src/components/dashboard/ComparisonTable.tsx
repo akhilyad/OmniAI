@@ -15,36 +15,42 @@ interface ComparisonTableProps {
   selectedIds: string[];
 }
 
+interface RowDef {
+  label: string;
+  key: (m: typeof MODELS[0]) => string;
+  lowerIsBetter?: boolean;
+}
+
 export function ComparisonTable({ selectedIds }: ComparisonTableProps) {
   const models = selectedIds.length
     ? MODELS.filter((m) => selectedIds.includes(m.id))
     : MODELS;
 
-  const rows = [
-    { label: "Provider", key: (m: typeof MODELS[0]) => m.provider },
-    { label: "Version", key: (m: typeof MODELS[0]) => m.version },
-    { label: "Context Window", key: (m: typeof MODELS[0]) => formatContextWindow(m.contextWindow) },
-    { label: "Input Price", key: (m: typeof MODELS[0]) => formatPrice(m.inputPrice) + "/M" },
-    { label: "Output Price", key: (m: typeof MODELS[0]) => formatPrice(m.outputPrice) + "/M" },
-    { label: "Arena ELO", key: (m: typeof MODELS[0]) => String(m.arenaElo) },
-    { label: "Speed (tok/s)", key: (m: typeof MODELS[0]) => String(m.tokensPerSecond) },
-    { label: "Knowledge Cutoff", key: (m: typeof MODELS[0]) => m.knowledgeCutoff },
-    { label: "Open Source", key: (m: typeof MODELS[0]) => (m.isOpenSource ? "✓ YES" : "✗ NO") },
-    {
-      label: "Modalities",
-      key: (m: typeof MODELS[0]) => m.modalities.join(", "),
-    },
-    { label: "MMLU", key: (m: typeof MODELS[0]) => String(m.benchmarks.find((b) => b.name === "MMLU")?.score ?? "—") + "%" },
-    { label: "HumanEval", key: (m: typeof MODELS[0]) => String(m.benchmarks.find((b) => b.name === "HumanEval")?.score ?? "—") + "%" },
-    { label: "MATH", key: (m: typeof MODELS[0]) => String(m.benchmarks.find((b) => b.name === "MATH")?.score ?? "—") + "%" },
-    { label: "GPQA", key: (m: typeof MODELS[0]) => String(m.benchmarks.find((b) => b.name === "GPQA")?.score ?? "—") + "%" },
+  const rows: RowDef[] = [
+    { label: "Provider",         key: (m) => m.provider },
+    { label: "Version",          key: (m) => m.version },
+    { label: "Context Window",   key: (m) => formatContextWindow(m.contextWindow) },
+    { label: "Input Price",      key: (m) => formatPrice(m.inputPrice) + "/M",  lowerIsBetter: true },
+    { label: "Output Price",     key: (m) => formatPrice(m.outputPrice) + "/M", lowerIsBetter: true },
+    { label: "Arena ELO",        key: (m) => String(m.arenaElo) },
+    { label: "Speed (tok/s)",    key: (m) => String(m.tokensPerSecond) },
+    { label: "Knowledge Cutoff", key: (m) => m.knowledgeCutoff },
+    { label: "Open Source",      key: (m) => (m.isOpenSource ? "✓ YES" : "✗ NO") },
+    { label: "Modalities",       key: (m) => m.modalities.join(", ") },
+    { label: "MMLU",      key: (m) => String(m.benchmarks.find((b) => b.name === "MMLU")?.score      ?? "—") + "%" },
+    { label: "HumanEval", key: (m) => String(m.benchmarks.find((b) => b.name === "HumanEval")?.score ?? "—") + "%" },
+    { label: "MATH",      key: (m) => String(m.benchmarks.find((b) => b.name === "MATH")?.score      ?? "—") + "%" },
+    { label: "GPQA",      key: (m) => String(m.benchmarks.find((b) => b.name === "GPQA")?.score      ?? "—") + "%" },
   ];
 
-  function getBest(rowKey: (m: typeof MODELS[0]) => string, models: typeof MODELS) {
-    const numericVals = models.map((m) => parseFloat(rowKey(m)));
-    if (numericVals.every(isNaN)) return null;
-    const max = Math.max(...numericVals.filter((v) => !isNaN(v)));
-    return max;
+  function getBestVal(
+    rowKey: (m: typeof MODELS[0]) => string,
+    models: typeof MODELS,
+    lowerIsBetter = false
+  ): number | null {
+    const nums = models.map((m) => parseFloat(rowKey(m))).filter((v) => !isNaN(v));
+    if (nums.length === 0) return null;
+    return lowerIsBetter ? Math.min(...nums) : Math.max(...nums);
   }
 
   return (
@@ -67,16 +73,20 @@ export function ComparisonTable({ selectedIds }: ComparisonTableProps) {
         </TableHeader>
         <TableBody>
           {rows.map((row) => {
-            const bestVal = getBest(row.key, models);
+            const bestVal = getBestVal(row.key, models, row.lowerIsBetter);
             return (
               <TableRow key={row.label} className="border-zinc-800 hover:bg-zinc-800/40">
                 <TableCell className="text-zinc-500 text-[11px] font-mono py-2">
                   {row.label}
+                  {row.lowerIsBetter && (
+                    <span className="text-zinc-700 ml-1 text-[9px]">↓</span>
+                  )}
                 </TableCell>
                 {models.map((m) => {
                   const val = row.key(m);
                   const numericVal = parseFloat(val);
-                  const isBest = bestVal !== null && !isNaN(numericVal) && numericVal === bestVal;
+                  const isBest =
+                    bestVal !== null && !isNaN(numericVal) && numericVal === bestVal;
                   return (
                     <TableCell
                       key={m.id}
@@ -88,7 +98,9 @@ export function ComparisonTable({ selectedIds }: ComparisonTableProps) {
                     >
                       {val}
                       {isBest && (
-                        <span className="text-yellow-400 ml-1 text-[9px]">▲</span>
+                        <span className="text-yellow-400 ml-1 text-[9px]">
+                          {row.lowerIsBetter ? "▼" : "▲"}
+                        </span>
                       )}
                     </TableCell>
                   );

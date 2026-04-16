@@ -12,10 +12,13 @@ import { PricingChart } from "@/components/dashboard/PricingChart";
 import { PricingHistory } from "@/components/dashboard/PricingHistory";
 import { NewsFeed } from "@/components/dashboard/NewsFeed";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { LiveClock } from "@/components/dashboard/LiveClock";
 
 export default function Home() {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [activeProvider, setActiveProvider] = useState<string | null>(null);
+  const [sortBy, setSortBy] = useState<"elo" | "inputPrice" | "speed" | "context">("elo");
+  const [search, setSearch] = useState("");
 
   function toggleModel(id: string) {
     setSelectedIds((prev) =>
@@ -23,21 +26,22 @@ export default function Home() {
     );
   }
 
-  const visibleModels = useMemo(
-    () =>
-      activeProvider
-        ? MODELS.filter((m) => m.provider === activeProvider)
-        : MODELS,
-    [activeProvider]
-  );
-
-  const now = new Date();
-  const timeStr = now.toLocaleTimeString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false,
-  });
+  const visibleModels = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    let list = MODELS.filter((m) => {
+      if (activeProvider && m.provider !== activeProvider) return false;
+      if (q && !m.name.toLowerCase().includes(q) && !m.provider.toLowerCase().includes(q)) return false;
+      return true;
+    });
+    list = [...list].sort((a, b) => {
+      if (sortBy === "elo")        return b.arenaElo - a.arenaElo;
+      if (sortBy === "inputPrice") return a.inputPrice - b.inputPrice;
+      if (sortBy === "speed")      return b.tokensPerSecond - a.tokensPerSecond;
+      if (sortBy === "context")    return b.contextWindow - a.contextWindow;
+      return 0;
+    });
+    return list;
+  }, [activeProvider, sortBy, search]);
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
@@ -58,7 +62,7 @@ export default function Home() {
               <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
               <span className="text-green-400">LIVE</span>
             </div>
-            <span className="text-zinc-500" suppressHydrationWarning>{timeStr}</span>
+            <LiveClock />
             <span className="text-zinc-600">
               {MODELS.length} MODELS · {PROVIDERS.length} PROVIDERS
             </span>
@@ -129,6 +133,44 @@ export default function Home() {
                 clear
               </button>
             )}
+          </div>
+        </section>
+
+        {/* Sort + search bar */}
+        <section>
+          <div className="flex items-center gap-2 flex-wrap font-mono">
+            <span className="text-[10px] text-zinc-600 uppercase tracking-wider mr-1">
+              Sort:
+            </span>
+            {(
+              [
+                { id: "elo",        label: "ELO ▼" },
+                { id: "inputPrice", label: "PRICE ▲" },
+                { id: "speed",      label: "SPEED ▼" },
+                { id: "context",    label: "CTX ▼" },
+              ] as const
+            ).map(({ id, label }) => (
+              <button
+                key={id}
+                onClick={() => setSortBy(id)}
+                className={`text-[11px] px-2.5 py-1 rounded border transition-all ${
+                  sortBy === id
+                    ? "border-yellow-400 bg-yellow-400/10 text-yellow-400"
+                    : "border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-300"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+            <div className="ml-auto">
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search model or provider…"
+                className="bg-zinc-900 border border-zinc-700 rounded px-3 py-1 text-[11px] font-mono text-zinc-300 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 w-52"
+              />
+            </div>
           </div>
         </section>
 
