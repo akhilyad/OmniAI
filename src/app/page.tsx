@@ -71,7 +71,7 @@ export default function Home() {
                 ? `${selectedIds.length} SELECTED`
                 : <span className="hidden xs:inline">CLICK CARDS TO COMPARE</span>}
             </span>
-            <span className="text-bbg-dim border-l border-bbg-border pl-3 hidden sm:inline">
+            <span className="text-bbg-dim border-l border-bbg-border pl-3">
               dev: <span className="text-bbg-green">CaptNightWatch</span>
             </span>
           </div>
