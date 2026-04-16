@@ -96,7 +96,7 @@ export function ModelCard({ model, isSelected, onSelect }: ModelCardProps) {
       </div>
 
       {/* Metrics row */}
-      <div className="flex items-center gap-3 mb-3 text-[11px]">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-3 text-[11px]">
         <span className="flex items-center gap-1 text-zinc-400">
           <Zap size={10} className="text-yellow-400" />
           {model.tokensPerSecond} tok/s

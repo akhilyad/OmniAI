@@ -59,31 +59,31 @@ export function LeaderBoard() {
         {entries.map((entry) => {
           const pct = (entry.arenaElo / maxElo) * 100;
           return (
-            <div key={entry.modelId} className="flex items-center gap-3">
-              <span className="text-bbg-muted text-[11px] w-4 text-right font-bold">
+            <div key={entry.modelId} className="flex items-center gap-2 sm:gap-3">
+              <span className="text-bbg-muted text-[11px] w-4 text-right font-bold shrink-0">
                 {entry.rank}
               </span>
-              <div className="w-24 shrink-0">
+              <div className="w-16 sm:w-24 shrink-0 min-w-0">
                 <div
-                  className="text-[11px] font-bold"
+                  className="text-[11px] font-bold truncate"
                   style={{ color: entry.color }}
                 >
                   {entry.name}
                 </div>
-                <div className="text-[10px] text-bbg-muted">{entry.provider}</div>
+                <div className="text-[10px] text-bbg-muted truncate">{entry.provider}</div>
               </div>
-              <div className="flex-1 bg-bbg-border rounded-full h-2 overflow-hidden">
+              <div className="flex-1 bg-bbg-border rounded-full h-2 overflow-hidden min-w-0">
                 <div
                   className="h-full rounded-full transition-all duration-500"
                   style={{ width: `${pct}%`, backgroundColor: entry.color }}
                 />
               </div>
-              <div className="text-right w-20 shrink-0">
+              <div className="text-right w-14 sm:w-20 shrink-0">
                 <div className="text-bbg-green text-[11px] font-bold">
                   {entry.arenaElo.toLocaleString()}
                 </div>
                 {entry.source === "hf-leaderboard" && (
-                  <div className="text-[9px] text-bbg-mid">HF LIVE</div>
+                  <div className="text-[9px] text-bbg-mid hidden sm:block">HF LIVE</div>
                 )}
               </div>
             </div>

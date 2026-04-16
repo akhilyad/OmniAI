@@ -47,8 +47,8 @@ export default function Home() {
     <div className="min-h-screen bg-black text-zinc-100">
       {/* ── Header ──────────────────────────────────────────────────────────── */}
       <header className="border-b border-bbg-border bg-black">
-        <div className="flex items-center justify-between px-6 py-3">
-          <div className="flex items-center gap-4 font-mono">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-4 sm:px-6 py-3 gap-2">
+          <div className="flex items-center gap-3 font-mono">
             <div className="text-bbg-green font-black text-lg tracking-tight" style={{ textShadow: "0 0 12px #00FF6688" }}>
               OmniAI
             </div>
@@ -57,19 +57,19 @@ export default function Home() {
               AI Model Terminal
             </div>
           </div>
-          <div className="flex items-center gap-6 font-mono text-xs">
+          <div className="flex items-center gap-3 sm:gap-6 font-mono text-xs flex-wrap">
             <div className="flex items-center gap-1.5">
               <div className="w-1.5 h-1.5 rounded-full bg-bbg-green animate-pulse" />
               <span className="text-bbg-green">LIVE</span>
             </div>
             <LiveClock />
-            <span className="text-bbg-muted">
+            <span className="text-bbg-muted hidden sm:inline">
               {MODELS.length} MODELS · {PROVIDERS.length} PROVIDERS
             </span>
             <span className="text-bbg-muted">
               {selectedIds.length > 0
                 ? `${selectedIds.length} SELECTED`
-                : "CLICK CARDS TO COMPARE"}
+                : <span className="hidden xs:inline">CLICK CARDS TO COMPARE</span>}
             </span>
           </div>
         </div>
@@ -79,7 +79,7 @@ export default function Home() {
       <Ticker />
 
       {/* ── Main content ────────────────────────────────────────────────────── */}
-      <main className="px-6 py-6 space-y-5 max-w-[1800px] mx-auto">
+      <main className="px-3 sm:px-6 py-4 sm:py-6 space-y-4 sm:space-y-5 max-w-[1800px] mx-auto">
 
         {/* Provider filter bar */}
         <section>
@@ -124,37 +124,37 @@ export default function Home() {
 
         {/* Sort + search bar */}
         <section>
-          <div className="flex items-center gap-1.5 flex-wrap font-mono">
-            <span className="text-[10px] text-bbg-muted uppercase tracking-wider mr-1">Sort:</span>
-            {(
-              [
-                { id: "elo",        label: "ELO ▼" },
-                { id: "inputPrice", label: "PRICE ▲" },
-                { id: "speed",      label: "SPEED ▼" },
-                { id: "context",    label: "CTX ▼" },
-              ] as const
-            ).map(({ id, label }) => (
-              <button
-                key={id}
-                onClick={() => setSortBy(id)}
-                className={`text-[11px] px-2.5 py-1 rounded border transition-all ${
-                  sortBy === id
-                    ? "border-bbg-green bg-bbg-green/10 text-bbg-green"
-                    : "border-bbg-border text-bbg-dim hover:border-bbg-mid hover:text-bbg-mid"
-                }`}
-              >
-                {label}
-              </button>
-            ))}
-            <div className="ml-auto">
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search model or provider…"
-                className="bg-bbg-surface border border-bbg-border rounded px-3 py-1 text-[11px] font-mono text-zinc-300 placeholder-bbg-muted focus:outline-none focus:border-bbg-green w-52 transition-colors"
-              />
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 font-mono">
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <span className="text-[10px] text-bbg-muted uppercase tracking-wider mr-1">Sort:</span>
+              {(
+                [
+                  { id: "elo",        label: "ELO ▼" },
+                  { id: "inputPrice", label: "PRICE ▲" },
+                  { id: "speed",      label: "SPEED ▼" },
+                  { id: "context",    label: "CTX ▼" },
+                ] as const
+              ).map(({ id, label }) => (
+                <button
+                  key={id}
+                  onClick={() => setSortBy(id)}
+                  className={`text-[11px] px-2.5 py-1 rounded border transition-all ${
+                    sortBy === id
+                      ? "border-bbg-green bg-bbg-green/10 text-bbg-green"
+                      : "border-bbg-border text-bbg-dim hover:border-bbg-mid hover:text-bbg-mid"
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
             </div>
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search model or provider…"
+              className="bg-bbg-surface border border-bbg-border rounded px-3 py-1 text-[11px] font-mono text-zinc-300 placeholder-bbg-muted focus:outline-none focus:border-bbg-green w-full sm:w-52 sm:ml-auto transition-colors"
+            />
           </div>
         </section>
 
@@ -175,7 +175,7 @@ export default function Home() {
               </button>
             )}
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8 gap-3">
+          <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8 gap-2 sm:gap-3">
             {visibleModels.map((model) => (
               <ModelCard
                 key={model.id}
@@ -193,7 +193,7 @@ export default function Home() {
           Tailwind selector: data-[active]:...
         */}
         <Tabs defaultValue="compare" className="font-mono">
-          <TabsList className="bg-black border border-bbg-border h-auto p-1 flex-wrap gap-0.5">
+          <TabsList className="bg-black border border-bbg-border h-auto p-1 flex-nowrap gap-0.5 overflow-x-auto w-full scrollbar-none">
             {[
               { val: "compare",         label: "COMPARISON MATRIX" },
               { val: "benchmarks",      label: "BENCHMARKS" },
