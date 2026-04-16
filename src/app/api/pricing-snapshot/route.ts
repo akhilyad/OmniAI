@@ -48,9 +48,9 @@ export async function POST(req: NextRequest) {
     await Promise.all(
       MODELS.map((m) =>
         sql`
-          INSERT INTO pricing_history (model_id, input_price, output_price)
-          VALUES (${m.id}, ${m.inputPrice}, ${m.outputPrice})
-          ON CONFLICT (model_id, DATE(recorded_at)) DO NOTHING
+          INSERT INTO pricing_history (model_id, input_price, output_price, recorded_date)
+          VALUES (${m.id}, ${m.inputPrice}, ${m.outputPrice}, CURRENT_DATE)
+          ON CONFLICT (model_id, recorded_date) DO NOTHING
         `
       )
     );
