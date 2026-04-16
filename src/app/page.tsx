@@ -58,7 +58,7 @@ export default function Home() {
               <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
               <span className="text-green-400">LIVE</span>
             </div>
-            <span className="text-zinc-500">{timeStr}</span>
+            <span className="text-zinc-500" suppressHydrationWarning>{timeStr}</span>
             <span className="text-zinc-600">
               {MODELS.length} MODELS · {PROVIDERS.length} PROVIDERS
             </span>
