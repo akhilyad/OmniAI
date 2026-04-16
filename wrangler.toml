@@ -1,0 +1,21 @@
+# Cloudflare Pages deployment config for BLOOMBR
+# Free tier — commercial use allowed (unlike Vercel Hobby)
+#
+# Deploy steps:
+#   1. npm run build:cf
+#   2. npx wrangler pages deploy .vercel/output/static --project-name bloombr
+#
+# Or connect your GitHub repo in the Cloudflare Dashboard:
+#   Build command:     npm run build:cf
+#   Output directory:  .vercel/output/static
+#   Node.js version:   20
+
+name = "bloombr"
+compatibility_date = "2024-12-18"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = ".vercel/output/static"
+
+[vars]
+# Set these as encrypted secrets in the CF Pages dashboard, not here:
+# DATABASE_URL  — your Neon connection string
+# CRON_SECRET   — random string to protect /api/pricing-snapshot POST

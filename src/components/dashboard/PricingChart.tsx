@@ -51,8 +51,8 @@ export function PricingChart() {
               fontFamily: "monospace",
               fontSize: 11,
             }}
-            formatter={(val: number, name: string) => [
-              val === 0 ? "FREE" : `$${val}/M`,
+            formatter={(val, name) => [
+              Number(val) === 0 ? "FREE" : `$${val}/M`,
               name === "input" ? "Input" : "Output",
             ]}
           />

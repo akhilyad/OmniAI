@@ -9,6 +9,7 @@ import { ComparisonTable } from "@/components/dashboard/ComparisonTable";
 import { LeaderBoard } from "@/components/dashboard/LeaderBoard";
 import { UseCaseRecommender } from "@/components/dashboard/UseCaseRecommender";
 import { PricingChart } from "@/components/dashboard/PricingChart";
+import { PricingHistory } from "@/components/dashboard/PricingHistory";
 import { NewsFeed } from "@/components/dashboard/NewsFeed";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
@@ -99,7 +100,8 @@ export default function Home() {
             {[
               { val: "compare", label: "COMPARISON MATRIX" },
               { val: "benchmarks", label: "BENCHMARKS" },
-              { val: "pricing", label: "PRICING" },
+              { val: "pricing", label: "PRICING TODAY" },
+              { val: "pricing-history", label: "PRICE HISTORY" },
               { val: "leaderboard", label: "LEADERBOARD" },
               { val: "usecase", label: "USE CASES" },
               { val: "news", label: "NEWS FEED" },
@@ -124,6 +126,10 @@ export default function Home() {
 
           <TabsContent value="pricing" className="mt-4">
             <PricingChart />
+          </TabsContent>
+
+          <TabsContent value="pricing-history" className="mt-4">
+            <PricingHistory />
           </TabsContent>
 
           <TabsContent value="leaderboard" className="mt-4">
