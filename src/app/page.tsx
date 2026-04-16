@@ -61,7 +61,7 @@ export default function Home() {
             </div>
             {/* Visible only on portrait mobile */}
             <span className="sm:hidden text-bbg-dim text-xs">
-              dev: <span className="text-bbg-green">CaptNightWatch</span>
+              dev: <a href="https://www.instagram.com/capt.night_watch" target="_blank" rel="noopener noreferrer" className="text-bbg-green hover:underline">CaptNightWatch</a>
             </span>
           </div>
           <div className="flex items-center gap-3 sm:gap-6 font-mono text-xs flex-wrap">
@@ -80,7 +80,7 @@ export default function Home() {
             </span>
             {/* Visible on landscape/desktop */}
             <span className="hidden sm:inline text-bbg-dim border-l border-bbg-border pl-3">
-              dev: <span className="text-bbg-green">CaptNightWatch</span>
+              dev: <a href="https://www.instagram.com/capt.night_watch" target="_blank" rel="noopener noreferrer" className="text-bbg-green hover:underline">CaptNightWatch</a>
             </span>
           </div>
         </div>
